@@ -1,0 +1,39 @@
+powershell
+cd c:\xampp\htdocs\Trading_Bot
+pip install -r requirements.txt   # หรือ pip install ccxt requests python-dotenv pandas
+copy .env.example .env            # แล้วแก้ใน .env: API_KEY, API_SECRET, DISCORD_WEBHOOK_URL
+python bot.py
+
+  
+
+  
+ถ้าใช้ Bitkub ให้ตั้ง EXCHANGE=bitkub และ SYMBOL=BTC/THB
+
+  
+ควรทดสอบในโหมดจำลองให้นานพอก่อนใช้เงินจริง
+
+  
+ตอนสร้าง API Key ให้ปิดสิทธิ์ถอนเงิน (withdraw)
+
+  
+บอทไม่การันตีกำไร
+
+ไฟล์ที่สร้าง:
+
+bot.py: โค้ดหลัก มีคอมเมนต์อธิบายทุกฟังก์ชัน
+.env.example: ตัวอย่างไฟล์ตั้งค่า
+requirements.txt: รายการไลบรารี
+
+กลยุทธ์
+
+ผมเลือก RSI(14) ร่วมกับ EMA200 เป็นตัวกรองเทรนด์ เพราะ RSI อย่างเดียวมักให้สัญญาณหลอกในตลาดขาลง
+Buy: เมื่อ RSI ต่ำกว่า 30 และราคาอยู่เหนือ EMA200
+Sell: เมื่อ RSI สูงกว่า 70
+บอทดูสัญญาณจากแท่งเทียนที่ปิดแล้วเท่านั้น
+
+การจัดการความเสี่ยง
+
+Stop Loss 2% และ Take Profit 4%
+จำกัดวงเงินต่อออร์เดอร์ (ค่าเริ่มต้น 20 USDT)
+หยุดเปิดออร์เดอร์ใหม่เมื่อขาดทุนสะสมรายวันถึงขีดจำกัด
+ค่าเริ่มต้นเป็น Paper trading (จำลอง) ตั้ง LIVE_TRADING=false ไว้ ต้องเปลี่ยนเป็น true เองถึงจะเทรดเงินจริง
